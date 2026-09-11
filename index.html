@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tron - Generador Inteligente de Algoritmos</title>
+    <style>
+        :root {
+            --primary-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-blue: #2563eb;
+            --accent-cyan: #06b6d4;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --code-bg: #0f172a;
+            --code-text: #38bdf8;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Pantalla de Inicio Corporativa */
+        #landing-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+        }
+
+        #landing-screen h1 {
+            font-size: 2.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        #landing-screen p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Pantalla de Chat Principal (Oculta al inicio) */
+        #chat-screen {
+            display: none;
+            flex-direction: column;
+            width: 850px;
+            height: 85vh;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            padding: 20px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header span {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        #chat-window {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #fafafa;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+
+        .user-msg {
+            background: var(--accent-blue);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .bot-msg {
+            background: white;
+            color: var(--text-main);
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .code-container {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            margin-top: 12px;
+            overflow-x: auto;
+            font-size: 0.88rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .input-area {
+            display: flex;
+            padding: 20px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            gap: 12px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            outline: none;
+            font-size: 0.95rem;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .btn-send {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 0 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-send:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE INICIO CORPORATIVA -->
+    <div id="landing-screen">
+        <h1>TRON // Core Engine</h1>
+        <p>Bienvenido al sistema inteligente de desarrollo y arquitectura lógica. Describa sus requerimientos y genere automáticamente algoritmos y código estructurado de nivel profesional.</p>
+        <button class="btn-primary" onclick="startApp()">Iniciar Sistema</button>
+    </div>
+
+    <!-- PANTALLA DE CHAT PRINCIPAL -->
+    <div id="chat-screen">
+        <div class="chat-header">
+            Tron Assistant - Generador de Algoritmos
+            <span>Estado: En Línea</span>
+        </div>
+        <div id="chat-window">
+            <div class="message bot-msg">
+                <strong>[TRON SYSTEM]:</strong> Módulo de Inteligencia Activo. Escriba el requerimiento o la solución lógica que desea diseñar (Ej: <em>"Necesito un algoritmo para ordenar una lista"</em> o <em>"Validar credenciales de acceso"</em>).
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="user-input" placeholder="Escriba su requerimiento aquí..." onkeypress="handleKeyPress(event)">
+            <button class="btn-send" onclick="processUserRequest()">Enviar</button>
+        </div>
+    </div>
+
+    <script>
+        function startApp() {
+            document.getElementById('landing-screen').style.display = 'none';
+            document.getElementById('chat-screen').style.display = 'flex';
+            document.getElementById('user-input').focus();
+        }
+
+        function processUserRequest() {
+            const inputField = document.getElementById("user-input");
+            const chatWindow = document.getElementById("chat-window");
+            const userText = inputField.value.trim();
+
+            if (userText === "") return;
+
+            // Renderizar mensaje del usuario
+            chatWindow.innerHTML += `<div class="message user-msg">${userText}</div>`;
+            inputField.value = "";
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+            // Simulación de procesamiento analítico avanzado de Tron
+            setTimeout(() => {
+                let responseHTML = "";
+                const textLower = userText.toLowerCase();
+
+                if (textLower.includes("ordenar") || textLower.includes("lista") || textLower.includes("burbuja")) {
+                    responseHTML = `<strong>[TRON AI] Análisis de Requerimiento:</strong> Ordenamiento de Elementos<br><br>` +
+                                   `<strong>1. Estructura Algorítmica (Pseudocódigo):</strong><br>` +
+                                   `• Inicio del proceso.<br>` +
+                                   `• Recibir el arreglo desordenado de datos.<br>` +
+                                   `• Ejecutar iteraciones cruzadas comparando elementos adyacentes.<br>` +
+                                   `• Reasignar posiciones si el elemento actual supera al siguiente.<br>` +
+                                   `• Retornar vector optimizado y ordenado.<br>` +
+                                   `• Fin.<br><br>` +
+                                   `<strong>2. Código Fuente Ejecutable (JavaScript):</strong>` +
+                                   `<div class="code-container">function ordenarArreglo(arr) {<br>&nbsp;&nbsp;let n = arr.length;<br>&nbsp;&nbsp;for (let i = 0; i < n - 1; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;for (let j = 0; j < n - i - 1; j++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (arr[j] > arr[j + 1]) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let temp = arr[j];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j] = arr[j + 1];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[j + 1] = temp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;return arr;<br>}</div>`;
+                }
+                else if (textLower.includes("login") || textLower.includes("usuario") || textLower.includes("contraseña") || textLower.includes("acceso")) {
+                    responseHTML = `<strong>[TRON AI] Análisis de Requerimiento:</strong> Control de Acceso y Seguridad<br><br>` +
+                                   `<strong>1. Estructura Algorítmica (Pseudocódigo):</strong><br>` +
+                                   `• Inicio del protocolo.<br>` +
+                                   `• Capturar credenciales ingresadas por el usuario.<br>` +
+                                   `• Validar parámetros contra la base de datos central.<br>` +
+                                   `• Si los datos coinciden: Otorgar token de sesión. Si fallan: Bloquear temporalmente.<br>` +
+                                   `• Fin.<br><br>` +
+                                   `<strong>2. Código Fuente Ejecutable (JavaScript):</strong>` +
+                                   `<div class="code-container">function verificarAcceso(usuario, password) {<br>&nbsp;&nbsp;const dbUser = "administrador";<br>&nbsp;&nbsp;const dbPass = "tron_2026*";<br>&nbsp;&nbsp;if (usuario === dbUser && password === dbPass) {<br>&nbsp;&nbsp;&nbsp;&nbsp;return { status: true, mensaje: "Acceso concedido al núcleo." };<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;return { status: false, mensaje: "Credenciales incorrectas." };<br>}</div>`;
+                }
+                else if (textLower.includes("factorial") || textLower.includes("matemática") || textLower.includes("calcular")) {
+                    responseHTML = `<strong>[TRON AI] Análisis de Requerimiento:</strong> Cálculo Matemático Avanzado<br><br>` +
+                                   `<strong>1. Estructura Algorítmica (Pseudocódigo):</strong><br>` +
+                                   `• Inicio del algoritmo.<br>` +
+                                   `• Validar que el número de entrada sea positivo.<br>` +
+                                   `• Inicializar variable acumuladora en 1.<br>` +
+                                   `• Multiplicar de forma iterativa descendente hasta completar la secuencia.<br>` +
+                                   `• Retornar resultado numérico final.<br>` +
+                                   `• Fin.<br><br>` +
+                                   `<strong>2. Código Fuente Ejecutable (JavaScript):</strong>` +
+                                   `<div class="code-container">function calcularFactorial(n) {<br>&nbsp;&nbsp;if (n < 0) return "No existe factorial negativo";<br>&nbsp;&nbsp;let resultado = 1;<br>&nbsp;&nbsp;for (let i = 2; i <= n; i++) {<br>&nbsp;&nbsp;&nbsp;&nbsp;resultado *= i;<br>&nbsp;&nbsp;}<br>&nbsp;&nbsp;return resultado;<br>}</div>`;
+                }
+                else {
+                    responseHTML = `<strong>[TRON AI] Análisis de Requerimiento:</strong> "${userText.toUpperCase()}"<br><br>` +
+                                   `<strong>1. Estructura Algorítmica (Pseudocódigo):</strong><br>` +
+                                   `• Paso 1: Inicializar los parámetros globales y capturar datos de entrada.<br>` +
+                                   `• Paso 2: Procesar la lógica condicional adaptada al requerimiento específico.<br>` +
+                                   `• Paso 3: Optimizar rendimiento mediante estructuras de control secundarias.<br>` +
+                                   `• Paso 4: Devolver resultados depurados al sistema principal.<br>` +
+                                   `• Fin del proceso.<br><br>` +
+                                   `<strong>2. Código Fuente Ejecutable (JavaScript):</strong>` +
+                                   `<div class="code-container">function procesarModuloTron() {<br>&nbsp;&nbsp;console.log("Ejecutando proceso: ${userText}");<br>&nbsp;&nbsp;// Bloque operativo optimizado por Tron AI<br>&nbsp;&nbsp;let estadoOperativo = "Exitoso";<br>&nbsp;&nbsp;return estadoOperativo;<br>}<br>procesarModuloTron();</div>`;
+                }
+
+                chatWindow.innerHTML += `<div class="message bot-msg">${responseHTML}</div>`;
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 600);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                processUserRequest();
+            }
+        }
+    </script>
+</body>
+</html>
+
+ 
